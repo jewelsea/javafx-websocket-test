@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import org.tbee.javafx.scene.layout.fxml.MigPane?>
-<?import layouttests.migfxml.sample1.*?>
+<?import org.tbee.javafx.scene.layout.fxml.*?>
 
 <MigPane id="rootPane" fx:controller="org.jewelsea.websocket.test.HelloController"
         styleClass="main-panel"

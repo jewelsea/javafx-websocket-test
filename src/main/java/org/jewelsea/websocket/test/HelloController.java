@@ -1,33 +1,76 @@
 package org.jewelsea.websocket.test;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.apache.commons.lang.StringUtils;
-import org.glassfish.tyrus.client.ClientManager;
+import org.jewelsea.websocket.test.client.HelloTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.websocket.*;
-import java.io.IOException;
-import java.net.URI;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
-public class HelloController
-{
+/**
+ * FXML controller for the application.
+ */
+public class HelloController {
     private static final Logger log = LoggerFactory.getLogger(HelloController.class);
 
-    @FXML private TextField firstNameField;
-    @FXML private TextField lastNameField;
-    @FXML private Label messageLabel;
+    private static final String DEFAULT_NAME = "mysterious person";
 
-    public void sayHello() {
-        String firstName = firstNameField.getText();
-        String lastName = lastNameField.getText();
+    @FXML
+    private TextField firstNameField;
 
+    @FXML
+    private TextField lastNameField;
+
+    @FXML
+    private Label messageLabel;
+
+    /**
+     * Event handler invoked when the user submits their name.
+     *
+     * Invokes an asynchronous task which will communicate
+     * the user's name to the server and update the message
+     * label with the server's response.
+     */
+    @FXML
+    private void sayHello() {
+        messageLabel.setText("");
+
+        String name = createFullName();
+
+        HelloTask helloTask = new HelloTask(name);
+
+        helloTask.setOnSucceeded(event -> {
+            log.debug(
+                    "Said hello to " + name + ", response " + helloTask.getValue()
+            );
+
+            messageLabel.setText(
+                    helloTask.getValue()
+            );
+        });
+
+        helloTask.setOnFailed(event ->
+            log.error(
+                    "Unable to say hello to " + name,
+                    helloTask.getException()
+            )
+        );
+
+        helloTask.start();
+    }
+
+    /**
+     * Helper function which constructs the user's full name
+     * from their input first and last names.
+     *
+     * @return the user's full name (or a default name if the user has not entered any name).
+     */
+    private String createFullName() {
         StringBuilder builder = new StringBuilder();
+
+        String firstName = firstNameField.getText();
+        String lastName  = lastNameField.getText();
 
         if (!StringUtils.isEmpty(firstName)) {
             builder.append(firstName);
@@ -40,53 +83,11 @@ public class HelloController
             builder.append(lastName);
         }
 
-        if (builder.length() > 0) {
-            String name = builder.toString();
-            log.debug("Saying hello to " + name);
-            messageLabel.setText(sendHello(name));
-        } else {
-            log.debug("Neither first name nor last name was set, saying hello to anonymous person");
-            messageLabel.setText(sendHello("mysterious person"));
-        }
-    }
-
-    private String sendHello(final String name) {
-        // For production code, it is best to do this as a concurrent task,
-        // but doing it inline on the JavaFX thread is OK for test purposes.
-
-        final SimpleStringProperty response = new SimpleStringProperty("Undefined");
-
-        try {
-            final CountDownLatch messageLatch = new CountDownLatch(1);
-
-            final ClientEndpointConfig cec = ClientEndpointConfig.Builder.create().build();
-
-            ClientManager client = ClientManager.createClient();
-            client.connectToServer(new Endpoint() {
-                @Override
-                public void onOpen(Session session, EndpointConfig config) {
-                    try {
-                        session.addMessageHandler(new MessageHandler.Whole<String>() {
-                            @Override
-                            public void onMessage(String message) {
-                                log.debug("Received response: "+ message);
-                                response.set(message);
-                                messageLatch.countDown();
-                            }
-                        });
-                        session.getBasicRemote().sendText(name);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, cec, new URI("ws://localhost:8025/websocket/hello"));
-
-            messageLatch.await(10, TimeUnit.SECONDS);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (builder.length() == 0) {
+            builder.append(DEFAULT_NAME);
         }
 
-        return response.get();
+        return builder.toString();
     }
 
 }
