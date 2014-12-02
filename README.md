@@ -20,7 +20,7 @@ which reuses such resources.
 
 *Sample Screenshot*
 
-![image](http://https://raw.githubusercontent.com/jewelsea/javafx-websocket-test/master/screenshot.png)
+![image](https://raw.githubusercontent.com/jewelsea/javafx-websocket-test/master/screenshot.png)
 
 *Build Requirements*
 
