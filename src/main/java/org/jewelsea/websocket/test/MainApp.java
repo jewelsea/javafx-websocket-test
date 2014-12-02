@@ -27,7 +27,7 @@ public class MainApp extends Application {
     }
 
     public void stop() throws DeploymentException {
-        server.start();
+        server.stop();
     }
 
     public void start(Stage stage) throws Exception {
