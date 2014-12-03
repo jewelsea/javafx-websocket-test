@@ -14,14 +14,17 @@ As this is built to be a self-contained demonstration application,
 a local WebSocket server is started when the application starts up and
 the local server is shutdown when the application is stopped.
 
-Websocket communication occurs within an asynchronously executed JavaFX [Task](http://docs.oracle.com/javase/8/javafx/api/javafx/concurrent/Task.html).
-A new thread and server connection is created for each communication task.
-(i.e. thread and connection resources are not shared or reused between tasks).
-For high traffic communication it would be recommended to use a different implementation
-which reuses such resources.
+*Implementation Notes*
 
-WebSocket endpoints are defined as annotated endpoints
-as documented in the specification for [JSR-356: Java API for WebSockets](https://jcp.org/en/jsr/detail?id=356).
+ 1. Websocket communication occurs within an asynchronously executed JavaFX [Task](http://docs.oracle.com/javase/8/javafx/api/javafx/concurrent/Task.html).
+ 2. WebSocket endpoints are defined as annotated endpoints as documented in the specification for [JSR-356: Java API for WebSockets](https://jcp.org/en/jsr/detail?id=356).
+ 3. A new server connection is created for each communication task (i.e. connection resources are not shared or reused between tasks).
+ 4. This implementation is not proxy aware.  For information on making the system proxy aware see the [Tyrus proxy documentation](https://tyrus.java.net/documentation/1.9/user-guide.html#d0e1323).
+ 5. For high traffic communication it would be recommended to use a different implementation
+which reuses such resources, for example:
+
+    * Using a [Tyrus shared container](https://tyrus.java.net/documentation/1.9/user-guide.html#d0e1215) OR
+    * Creating a persistent connection which is used for server calls (probably in conjunction with a the [Tyrus client reconnect facility](https://tyrus.java.net/documentation/1.9/user-guide.html#d0e1311)).      
 
 *Sample Screenshot*
 
@@ -51,10 +54,10 @@ To run the resultant application as webstart app:
     
 *Attribution*
 
-This is a JavaFX maven plugin built project.
-Information on using the JavaFX maven plugin is at:
+This is a JavaFX Maven Plugin built project.
+Information on using the JavaFX Maven Plugin is at:
 
  * [https://github.com/zonski/javafx-maven-plugin](https://github.com/zonski/javafx-maven-plugin)
 
-A skeleton for this project was generated using the [JavaFX maven plugin Quickstart archetype](http://zenjava.com/javafx/maven/basic-archetype.html), then significantly modified after that.
+A skeleton for this project was generated using the [JavaFX Maven Plugin Quickstart Archetype](http://zenjava.com/javafx/maven/basic-archetype.html), then significantly modified after that.
 

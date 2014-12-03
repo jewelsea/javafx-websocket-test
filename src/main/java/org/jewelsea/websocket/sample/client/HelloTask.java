@@ -3,14 +3,11 @@ package org.jewelsea.websocket.sample.client;
 import javafx.concurrent.Task;
 import org.glassfish.tyrus.client.ClientManager;
 import org.jewelsea.websocket.sample.server.HelloServer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.websocket.DeploymentException;
 import java.io.IOException;
 import java.net.URI;
 import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Wraps communication with a WebSocket endpoint in a JavaFX Task.
@@ -18,22 +15,14 @@ import java.util.concurrent.atomic.AtomicLong;
  * This allows the communication to occur asynchronously to the JavaFX application thread,
  * so the JavaFX application thread is not blocked by the communication process.
  *
- * A new thread and server connection is created for each communication task.
- * (i.e. thread and connection resources are not shared or reused between tasks).
+ * A new server connection is created for each communication task.
+ * (i.e. connection resources are not shared or reused between tasks).
  * For high traffic communication it would be recommended to use a different implementation
  * which reuses such resources.
  */
 public class HelloTask extends Task<String> {
-    private static final Logger log = LoggerFactory.getLogger(HelloTask.class);
-
     private static final String SERVER_ENDPOINT_ADDRESS =
             HelloServer.SERVER_ADDRESS + "/hello";
-
-    private static final String THREAD_NAME =
-            "hello-connection-";
-
-    private final AtomicLong connectionID =
-            new AtomicLong(0);
 
     private final String name;
 
@@ -78,15 +67,4 @@ public class HelloTask extends Task<String> {
         return response;
     }
 
-    /**
-     * Creates a new daemon thread for executing this task and starts it.
-     */
-    public void start() {
-        Thread thread = new Thread(
-                this,
-                THREAD_NAME + connectionID.getAndIncrement()
-        );
-        thread.setDaemon(true);
-        thread.start();
-    }
 }

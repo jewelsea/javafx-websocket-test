@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.apache.commons.lang.StringUtils;
-import org.jewelsea.websocket.sample.client.HelloTask;
+import org.jewelsea.websocket.sample.client.HelloService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,39 +25,44 @@ public class HelloController {
     @FXML
     private Label messageLabel;
 
+    private HelloService helloService = new HelloService();
+
     /**
      * Event handler invoked when the user submits their name.
      *
      * Invokes an asynchronous task which will communicate
      * the user's name to the server and update the message
      * label with the server's response.
+     *
+     * If invoked again before an in progress task completes,
+     * the in progress task is cancelled and a new task is issued
+     * with the current value of the name fields.
      */
     @FXML
     private void sayHello() {
         messageLabel.setText("");
 
         String name = createFullName();
+        helloService.setName(name);
 
-        HelloTask helloTask = new HelloTask(name);
-
-        helloTask.setOnSucceeded(event -> {
+        helloService.setOnSucceeded(event -> {
             log.debug(
-                    "Said hello to " + name + ", response " + helloTask.getValue()
+                    "Said hello to " + name + ", response " + helloService.getValue()
             );
 
             messageLabel.setText(
-                    helloTask.getValue()
+                    helloService.getValue()
             );
         });
 
-        helloTask.setOnFailed(event ->
+        helloService.setOnFailed(event ->
             log.error(
                     "Unable to say hello to " + name,
-                    helloTask.getException()
+                    helloService.getException()
             )
         );
 
-        helloTask.start();
+        helloService.restart();
     }
 
     /**
