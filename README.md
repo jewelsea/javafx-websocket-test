@@ -5,7 +5,7 @@ Sample of using a WebSocket client within a JavaFX client application.
 The project makes use of the [Tyrus WebSocket framework](https://tyrus.java.net).
 
 Creates a scene where the user can input their name, then submit
-a request to a WebSocket server, which will respond with "Hello <name>",
+a request to a WebSocket server, which will respond with `Hello <name>`,
 the output of which is recorded in a label on the scene.
 
 As this is built to be a self-contained demonstration application,
