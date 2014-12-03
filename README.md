@@ -4,6 +4,8 @@ Sample of using a WebSocket client within a JavaFX client application.
 
 The project makes use of the [Tyrus WebSocket framework](https://tyrus.java.net).
 
+*Description*
+
 Creates a scene where the user can input their name, then submit
 a request to a WebSocket server, which will respond with `Hello <name>`,
 the output of which is recorded in a label on the scene.
@@ -17,6 +19,9 @@ A new thread and server connection is created for each communication task.
 (i.e. thread and connection resources are not shared or reused between tasks).
 For high traffic communication it would be recommended to use a different implementation
 which reuses such resources.
+
+WebSocket endpoints are defined as annotated endpoints
+as documented in the specification for [JSR-356: Java API for WebSockets](https://jcp.org/en/jsr/detail?id=356).
 
 *Sample Screenshot*
 
