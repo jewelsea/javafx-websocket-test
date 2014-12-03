@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import org.tbee.javafx.scene.layout.fxml.*?>
 
-<MigPane id="rootPane" fx:controller="org.jewelsea.websocket.test.HelloController"
+<MigPane id="rootPane" fx:controller="org.jewelsea.websocket.sample.HelloController"
         styleClass="main-panel"
         layout="insets 20"
         cols="[label, pref!][grow, 50::]"

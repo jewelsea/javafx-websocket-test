@@ -1,11 +1,11 @@
-package org.jewelsea.websocket.test;
+package org.jewelsea.websocket.sample;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.jewelsea.websocket.test.server.HelloServer;
+import org.jewelsea.websocket.sample.server.HelloServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,8 +1,8 @@
-package org.jewelsea.websocket.test.client;
+package org.jewelsea.websocket.sample.client;
 
 import javafx.concurrent.Task;
 import org.glassfish.tyrus.client.ClientManager;
-import org.jewelsea.websocket.test.server.HelloServer;
+import org.jewelsea.websocket.sample.server.HelloServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

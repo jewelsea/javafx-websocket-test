@@ -32,7 +32,7 @@
                 <version>8.1.2</version>
                 <configuration>
 
-                    <mainClass>org.jewelsea.websocket.test.JavaFXWebsocketDemoApp</mainClass>
+                    <mainClass>org.jewelsea.websocket.sample.JavaFXWebsocketDemoApp</mainClass>
 
                     <!-- only required if signing the jar file -->
                     <keyStoreAlias>selfsigned</keyStoreAlias>

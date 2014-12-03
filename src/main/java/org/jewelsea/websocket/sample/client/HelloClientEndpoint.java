@@ -1,4 +1,4 @@
-package org.jewelsea.websocket.test.client;
+package org.jewelsea.websocket.sample.client;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

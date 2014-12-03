@@ -1,7 +1,7 @@
-package org.jewelsea.websocket.test.server;
+package org.jewelsea.websocket.sample.server;
 
 import org.glassfish.tyrus.server.Server;
-import org.jewelsea.websocket.test.JavaFXWebsocketDemoApp;
+import org.jewelsea.websocket.sample.JavaFXWebsocketDemoApp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
